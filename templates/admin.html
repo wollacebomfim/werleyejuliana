@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel Admin</title>
+    <!-- Adicionando Materialize CSS -->
+         <!-- Materialize JS -->
+         <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+         <link href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" rel="stylesheet">
+         <!-- Material Icons -->
+         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"></head>
+<body>
+    <div class="container">
+        <h2 class="center">Painel Administrativo</h2>
+        <div class="row">
+            <a href="{{ url_for('logout') }}" class="btn pink right">Logout</a>
+        </div>
+        <table class="highlight centered">
+            <thead>
+                <tr>
+                    <th>Comentário</th>
+                    <th>Postado por</th>
+                    <th>Imagem</th>
+                    <th>Ação</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for upload in uploads %}
+                    <tr>
+                        <td>{{ upload.comentario }}</td>
+                        <td>{{ upload.posted_by }}</td>
+                        <td><img src="{{ url_for('static', filename='uploads/' + upload.image) }}" alt="Imagem de {{ upload.comentario }}" style="max-width: 100px;"></td>
+                        <td>
+                            <form action="{{ url_for('delete', id=upload.id) }}" method="POST" style="display:inline;">
+                                <button type="submit" class="btn red">Deletar</button>
+                            </form>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Werley & Juliana</title>
+    <!-- Adicionando Materialize CSS -->
+         <!-- Materialize JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" rel="stylesheet">
+    <!-- Material Icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <style>
+        /* Definir a altura e largura do carrossel para uma imagem */
+        .carousel {
+            height: 500px;
+            max-width: 800px;
+            margin: 0 auto; /* Centraliza o carrossel no container */
+        }
+        .carousel .carousel-item img {
+            height: 100%;
+            width: 100%;
+            object-fit: cover;
+        }
+        /* Esconder o input de arquivo */
+        #image {
+            display: none;
+        }
+        /* Centralizar o ícone de adicionar foto */
+        .file-field .btn-floating {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 20px auto;
+            cursor: pointer;
+        }
+        .icon-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+    </style>
+</head>
+<body>
+    <!-- Carrossel de Imagens -->
+    <div class="carousel carousel-slider">
+        <a class="carousel-item" href="#one!"><img src="{{ url_for('static', filename='images/1.jpg') }}"></a>
+        <a class="carousel-item" href="#two!"><img src="{{ url_for('static', filename='images/2.jpg') }}"></a>
+        <a class="carousel-item" href="#three!"><img src="{{ url_for('static', filename='images/3.jpg') }}"></a>
+        <a class="carousel-item" href="#four!"><img src="{{ url_for('static', filename='images/4.jpg') }}"></a>
+        <a class="carousel-item" href="#five!"><img src="{{ url_for('static', filename='images/5.jpg') }}"></a>
+    </div>
+
+    <!-- Formulário de Upload -->
+    <div class="container">
+        <div class="row">
+            <div class="col s12 m6 offset-m3">
+                <div class="card">
+                    <div class="card-content">
+                        <span class="card-title center">Compartilhe esse momento!</span>
+                        <form action="/" method="POST" enctype="multipart/form-data">
+                            <div class="icon-container">
+                                <label for="image" class="btn-floating btn-large waves-effect waves-light pink">
+                                    <i class="material-icons">add_a_photo</i>
+                                </label>
+                                <input type="file" id="image" name="image" accept="image/*" required>
+                            </div>
+
+                            <div class="input-field">
+                                <input type="text" id="posted_by" name="posted_by" required>
+                                <label for="posted_by">Postado por:</label>
+                            </div>
+
+                            <div class="input-field">
+                                <input type="text" id="comentario" name="comentario" required>
+                                <label for="comentario">Comentário</label>
+                            </div>
+
+                            <button type="submit" class="btn pink">Enviar</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <hr>
+        <h2 class="center">TimeLine</h2>
+        <div>
+            {% for upload in uploads %}
+                <div class="timeline-item center">
+                    <p><em>Postado por: {{ upload.posted_by }}</em></p>
+                    <p><strong>Comentário: {{ upload.comentario }}</strong></p>
+                    <img src="{{ url_for('static', filename='uploads/' + upload.image) }}" alt="Imagem de {{ upload.comentario }}" style="max-width: 300px;">
+                </div>
+                <hr>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- Adicionando Materialize JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var elems = document.querySelectorAll('.carousel');
+            var instances = M.Carousel.init(elems, {
+                fullWidth: true,
+                indicators: true
+            });
+
+            // Configuração do carrossel automático
+            setInterval(function() {
+                instances[0].next(); // Avança para o próximo slide
+            }, 2000); // Intervalo de 2 segundos
+        });
+    </script>
+</body>
+</html>
